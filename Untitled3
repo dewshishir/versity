@@ -1,0 +1,155 @@
+#include<iostream>
+using namespace std;
+
+class Node
+{
+public:
+    int data;
+    Node* next;
+
+    Node(int data)
+    {
+        this->data =data;
+        this -> next = nullptr;
+    }
+
+};
+
+class linkedlist
+{
+public:
+    Node* head = nullptr;
+    Node* tail = nullptr;
+    int sz = 0;
+    void insertAtbegin(int val)
+    {
+        Node* tmp = new Node(val);
+        if(head==nullptr && tail==nullptr)
+        {
+            head = tmp;
+            tail = tmp;
+        }
+        else
+        {
+            tmp->next = head;
+            head = tmp;
+        }
+        sz++;
+    }
+
+    void insertAtend(int val)
+    {
+        Node* tmp = new Node(val);
+        if(head==nullptr && tail==nullptr)
+        {
+            head=tmp;
+            tail=tmp;
+        }
+        else
+        {
+            tail->next = tmp;
+            tail = tmp;
+        }
+        sz++;
+    }
+
+    void insertAt(int indx,int val){
+        Node* t = new Node(val);
+        Node* tmp= head ;
+        if(indx==0){
+            insertAtbegin(val);
+            return;
+        }
+        else if(indx==sz){
+            insertAtend(val);
+        }
+        else if(indx<0 && indx>sz){
+            cout << "Wrong Index " << endl;
+            return;
+        }
+        for(int i=1;i<=indx-1;i++){
+            tmp = tmp->next;
+        }
+        t->next = tmp->next;
+        tmp->next = t ;
+        sz++;
+    }
+
+    void deleteAt(int indx){
+    Node* tmp=head;
+        if(indx==0){
+            head = head->next;
+            sz--;
+            return;
+        }
+        else if(indx == sz-1){
+            for(int i=1;i<=indx-1;i++){
+                tmp=tmp->next;
+            }
+            tmp->next=nullptr;
+            sz--;
+        }
+        else{
+            for(int i=1;i<=indx-1;i++){
+                tmp=tmp->next;
+            }
+            tmp->next=tmp->next->next;
+            sz--;
+        }
+    }
+/*
+    int sz()
+    {
+        Node* tmp = head;
+        int cnt=0;
+        while(tmp!=nullptr)
+        {
+            cnt++;
+            tmp= tmp->next;
+        }
+        return cnt;
+    }
+*/
+
+
+    void display()
+    {
+        Node* tmp = head;
+        while(tmp!=nullptr)
+        {
+            cout << tmp->data << " " ;
+            tmp= tmp->next;
+        }
+        cout << endl;
+    }
+};
+
+
+int main()
+{
+    linkedlist x ;
+
+    /// Insert at head
+    x.insertAtbegin(7);
+    x.display();
+    x.insertAtbegin(8);
+    x.display();
+
+    /// Insert at end
+
+    x.insertAtend(9);
+    x.display();
+    x.insertAtend(10);
+    x.display();
+
+
+    /// Insert at any position
+
+    x.insertAt(0,50);
+    x.display();
+
+    /// delete at any
+
+    x.deleteAt(x.sz -1);
+    x.display();
+}
